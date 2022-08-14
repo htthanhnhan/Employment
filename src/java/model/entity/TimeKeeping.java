@@ -197,4 +197,12 @@ public class TimeKeeping {
     public void endOverTime() {
         TimeKeepingDB.endOverTime(this);
     }
+    
+    public Employee getEmployee() {
+        return new Employee(this.employeeId);
+    }
+    
+    public void update() {
+        TimeKeepingDB.update(this);
+    }
 }

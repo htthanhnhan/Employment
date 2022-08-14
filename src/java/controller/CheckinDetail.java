@@ -11,16 +11,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.dao.DepartmentDB;
-import model.dao.EmployeeDB;
+import model.dao.TimeKeepingDB;
 import model.entity.Account;
 import model.entity.Employee;
 
 /**
  *
- * @author ACER
+ * @author NguyenVy
  */
-public class UpdateEmployee extends HttpServlet {
+public class CheckinDetail extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +38,10 @@ public class UpdateEmployee extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateEmployee</title>");
+            out.println("<title>Servlet CheckinDetail</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateEmployee at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CheckinDetail at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -73,18 +72,24 @@ public class UpdateEmployee extends HttpServlet {
                     return;
                 }
 
-                if (type == 1) {
-                    request.setAttribute("e", new Employee(id));
-                    request.setAttribute("manager", EmployeeDB.getAllManager());
-                    request.setAttribute("department", DepartmentDB.getAllDepartment());
-                    request.getRequestDispatcher("UpdateEmployee.jsp").include(request, response);
-                } else {
-                    response.sendRedirect("list-employee");
+                switch (type) {
+                    case 1:
+                    case 2: {
+                        Employee e = new Employee(id);
+                        request.setAttribute("e", e);
+                        request.setAttribute("list", TimeKeepingDB.getTimeKeepingByEmployee(e));
+                        request.getRequestDispatcher("CheckInDetail.jsp").forward(request, response);
+                        break;
+                    }
+                    case 3: {
+                        response.sendRedirect("list-employee");
+                        break;
+                    }
                 }
             } else {
                 response.sendRedirect("login");
             }
-        } catch (IOException | ServletException e) {
+        } catch (IOException e) {
             response.sendRedirect("login");
         }
     }
@@ -100,25 +105,7 @@ public class UpdateEmployee extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("utf-8");
-        int id = Integer.parseInt(request.getParameter("id"));
-        String email = request.getParameter("email");
-        String address = request.getParameter("address");
-        String tel = Validation.CheckTel(request.getParameter("tel"));
-        int positionId = Integer.parseInt(request.getParameter("positionId"));
-        int managerId = Integer.parseInt(request.getParameter("managerId"));
-        int departmentId = Integer.parseInt(request.getParameter("departmentId"));
-        Employee e = new Employee(id);
-        e.setEmail(email);
-        e.setAddress(address);
-        e.setTel(tel);
-        e.setPositionId(positionId);
-        e.setManagerId(managerId);
-        e.setDepartmentId(departmentId);
-        e.update();
-//        new Employee(id, fullName, email, address, tel, positionId, managerId, true, departmentId, sex).update();
-        response.sendRedirect("list-employee");
+        processRequest(request, response);
     }
 
     /**

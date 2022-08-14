@@ -20,7 +20,7 @@ import model.entity.TimeKeeping;
  * @author ACER
  */
 public class TimeKeepingDB implements DBContext {
-
+    
     public static ArrayList<TimeKeeping> getTimeKeepingByEmployee(Employee e) {
         try (Connection conn = DBContext.getConnection()) {
             String query = "SELECT id, employeeId, currentDate, startTime, endTime, punish, workingHours, startOverTime, endOverTime, overTimeHours, checkPay, validVac FROM TimeKeeping WHERE employeeId = ?\n"
@@ -32,7 +32,7 @@ public class TimeKeepingDB implements DBContext {
 //            SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
             while (rs.next()) {
                 list.add(new TimeKeeping(rs.getInt(1), rs.getInt(2), rs.getDate(3), rs.getTime(4), rs.getTime(5), rs.getInt(6), rs.getFloat(7), rs.getTime(8), rs.getTime(9), rs.getFloat(10), rs.getBoolean(11), rs.getBoolean(12)));
-
+                
             }
             conn.close();
             return list;
@@ -54,7 +54,7 @@ public class TimeKeepingDB implements DBContext {
 //            SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
             while (rs.next()) {
                 list.add(new TimeKeeping(rs.getInt(1), rs.getInt(2), rs.getDate(3), rs.getTime(4), rs.getTime(5), rs.getInt(6), rs.getFloat(7), rs.getTime(8), rs.getTime(9), rs.getFloat(10), rs.getBoolean(11), rs.getBoolean(12)));
-
+                
             }
             conn.close();
             return list;
@@ -64,7 +64,7 @@ public class TimeKeepingDB implements DBContext {
             throw new RuntimeException("Somthing error...");
         }
     }
-
+    
     public static TimeKeeping getTimeKeepingByEmployeeAndCurrentDate(Employee e) {
         try (Connection conn = DBContext.getConnection()) {
             String query = "SELECT id, employeeId, currentDate, startTime, endTime, punish, workingHours, startOverTime, endOverTime, overTimeHours, checkPay, validVac FROM TimeKeeping WHERE currentDate = ? AND employeeId = ?";
@@ -75,7 +75,7 @@ public class TimeKeepingDB implements DBContext {
             ps.setString(1, f.format(date));
             ps.setInt(2, e.getId());
             ResultSet rs = ps.executeQuery();
-
+            
             if (rs.next()) {
                 return new TimeKeeping(rs.getInt(1), rs.getInt(2), rs.getDate(3), rs.getTime(4), rs.getTime(5), rs.getInt(6), rs.getFloat(7), rs.getTime(8), rs.getTime(9), rs.getFloat(10), rs.getBoolean(11), rs.getBoolean(12));
             }
@@ -87,7 +87,7 @@ public class TimeKeepingDB implements DBContext {
         }
         return null;
     }
-
+    
     public static TimeKeeping getTimeKeeping(int id) {
         try (Connection conn = DBContext.getConnection()) {
             String query = "SELECT id, employeeId, currentDate, startTime, endTime, punish, workingHours, startOverTime, endOverTime, overTimeHours, checkPay, validVac FROM TimeKeeping WHERE id = ?";
@@ -97,7 +97,7 @@ public class TimeKeepingDB implements DBContext {
 //            SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
             if (rs.next()) {
                 return new TimeKeeping(rs.getInt(1), rs.getInt(2), rs.getDate(3), rs.getTime(4), rs.getTime(5), rs.getInt(6), rs.getFloat(7), rs.getTime(8), rs.getTime(9), rs.getFloat(10), rs.getBoolean(11), rs.getBoolean(12));
-
+                
             }
             conn.close();
             return null;
@@ -107,7 +107,7 @@ public class TimeKeepingDB implements DBContext {
             throw new RuntimeException("Somthing error...");
         }
     }
-
+    
     public static void startTime(Employee e) {
         try (Connection conn = DBContext.getConnection()) {
             String query = "INSERT INTO TimeKeeping(employeeId, punish)\n"
@@ -129,7 +129,7 @@ public class TimeKeepingDB implements DBContext {
             throw new RuntimeException("Somthing error...");
         }
     }
-
+    
     public static void endTime(TimeKeeping t) {
         try (Connection conn = DBContext.getConnection()) {
             String query = "UPDATE TimeKeeping\n"
@@ -154,7 +154,43 @@ public class TimeKeepingDB implements DBContext {
             throw new RuntimeException("Somthing error...");
         }
     }
-
+    
+    public static void update(TimeKeeping t) {
+        try (Connection conn = DBContext.getConnection()) {
+            String query = "UPDATE TimeKeeping\n"
+                    + "SET startTime = ?, endTime = ?, startOverTime = ?, endOverTime = ?, punish = ?, workingHours = ?, overTimeHours = ?  WHERE id = ?";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setTime(1, t.getStartTime());
+            ps.setTime(2, t.getEndTime());
+            ps.setTime(3, t.getStartOverTime());
+            ps.setTime(4, t.getEndOverTime());
+            if (t.getStartTime().after(Time.valueOf("08:00:00"))) {
+                t.setPunish(t.getPunish() + 1);
+            }
+            if (t.getEndTime().before(Time.valueOf("19:00:00"))) {
+                t.setPunish(t.getPunish() + 1);
+            }
+            ps.setInt(5, t.getPunish() + 1);
+            if (t.getEndTime() != null) {
+                ps.setDouble(6, (t.getEndTime().getTime() - t.getStartTime().getTime()) / 1000 / 60 / 60.0);
+            } else {
+                ps.setDouble(6, 0);
+            }
+            if (t.getEndOverTime() != null) {
+                ps.setDouble(7, (t.getEndOverTime().getTime() - t.getStartOverTime().getTime()) / 1000 / 60 / 60.0);
+            } else {
+                ps.setDouble(7, 0);
+            }
+            ps.setInt(8, t.getId());
+            ps.executeUpdate();
+            conn.commit();
+        } catch (Exception ex) {
+            System.out.println(ex);
+            System.out.println("Error at model.dao.ContractDB.update()");
+            throw new RuntimeException("Có lỗi xảy ra, vui lòng thử lại...");
+        }
+    }
+    
     public static void startOverTime(TimeKeeping t) {
         try (Connection conn = DBContext.getConnection()) {
             String query = "UPDATE TimeKeeping\n"
@@ -173,7 +209,7 @@ public class TimeKeepingDB implements DBContext {
             throw new RuntimeException("Somthing error...");
         }
     }
-
+    
     public static void endOverTime(TimeKeeping t) {
         try (Connection conn = DBContext.getConnection()) {
             String query = "UPDATE TimeKeeping\n"
@@ -193,7 +229,7 @@ public class TimeKeepingDB implements DBContext {
             throw new RuntimeException("Somthing error...");
         }
     }
-
+    
     public static float[] rateSalary(Employee e) {
         try (Connection conn = DBContext.getConnection()) {
             String query = "SELECT SUM(workingHours), SUM(punish), SUM(overTimeHours) FROM TimeKeeping\n"
@@ -213,7 +249,7 @@ public class TimeKeepingDB implements DBContext {
             throw new RuntimeException("Somthing error...");
         }
     }
-
+    
     public static void paySalary(int empId) {
         try (Connection conn = DBContext.getConnection()) {
             String query = "UPDATE TimeKeeping\n"
@@ -230,10 +266,12 @@ public class TimeKeepingDB implements DBContext {
             throw new RuntimeException("Somthing error...");
         }
     }
-
+    
     public static void main(String[] args) {
-        for(float a: rateSalary(new Employee(1002))) {
-            System.out.println(a);
-        }
+//        for (float a : rateSalary(new Employee(1002))) {
+//            System.out.println(a);
+//        }
+        String t = "10:10:10";
+        System.out.println(Time.valueOf(t));
     }
 }

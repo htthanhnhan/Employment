@@ -20,6 +20,9 @@
     function disable() {
         document.getElementById("submit").disabled = "true";
     }
+    window.onhashchange = function () {
+        document.getElementById("submit").removeAttribute("disabled");
+    }
 </script>
 <script src="./assets/js/jquery.min.js"></script>
 <script src="./assets/js/popper.min.js"></script>

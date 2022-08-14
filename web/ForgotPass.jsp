@@ -53,7 +53,7 @@
                             </div>
                         </div>
                         <div class="login_form">
-                            <form action="forgot-password" method="post">
+                            <form action="forgot-password" method="post" onsubmit="disable()">
                                 <fieldset>
                                     <div class="field">
                                         <label class="label_field">Tên đăng nhập</label>
@@ -66,7 +66,7 @@
                                     <div style="display: flex; text-align: right">
                                         <div class="field margin_0">
                                             <label class="label_field hidden">hidden label</label>
-                                            <button class="main_bt">Đồng ý</button>
+                                            <button class="main_bt" id="submit">Đồng ý</button>
                                         </div>
                                         <div class="field margin_0">
                                             <label class="label_field hidden">hidden label</label>

@@ -146,7 +146,7 @@ public class CheckIn extends HttpServlet {
                 }
                 break;
             case 3:
-                if(TimeKeepingDB.getTimeKeepingByEmployeeAndCurrentDate(new Employee(id)).getStartOverTime() == null) {
+                if(TimeKeepingDB.getTimeKeepingByEmployeeAndCurrentDate(new Employee(id)) != null && TimeKeepingDB.getTimeKeepingByEmployeeAndCurrentDate(new Employee(id)).getEndTime() != null && TimeKeepingDB.getTimeKeepingByEmployeeAndCurrentDate(new Employee(id)).getStartOverTime() == null) {
                     new TimeKeeping(TimeKeepingDB.getTimeKeepingByEmployeeAndCurrentDate(new Employee(id)).getId()).startOverTime();    
                 } else {
                     throw new RuntimeException("Có lỗi xảy ra, vui lòng thử lại!");

@@ -35,7 +35,7 @@
                         </div>
                         <div class="form-group">
                             <label for="tel" class="text-info">Số điện thoại:</label><br>
-                            <input type="text" name="tel" id="tel" class="form-control value" autocomplete="off" required maxlength="10" pattern="[0-9]{1,10}" title="Số điện thoại chỉ chứa các ký tự số từ 0-9">
+                            <input type="text" name="tel" id="tel" class="form-control value" autocomplete="off" required minlength="10" maxlength="10" pattern="[0-9]{1,10}" title="Số điện thoại chỉ chứa các ký tự số từ 0-9">
                         </div>
                         <div class="form-group">
                             <label for="positionId" class="text-info">Chức vụ:</label><br>

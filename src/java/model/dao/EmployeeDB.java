@@ -309,7 +309,7 @@ public class EmployeeDB implements DBContext {
     public static void update(Employee e) {
         try (Connection conn = DBContext.getConnection()) {
             String query = "UPDATE Employee\n"
-                    + "SET fullName = ?, email = ?, address = ?, tel = ?, positionId = ?, managerId = ?, departmentId = ?, sex = ?, avatar = ?\n"
+                    + "SET fullName = ?, email = ?, address = ?, tel = ?, positionId = ?, managerId = ?, departmentId = ?, avatar = ?\n"
                     + "WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, e.getFullName());
@@ -324,15 +324,14 @@ public class EmployeeDB implements DBContext {
                 a.setRoleId(2);
             }
             a.update();
-            ps.setBoolean(8, e.isSex());
             if (e.getManagerId() == 0) {
                 ps.setString(6, null);
             } else {
                 ps.setInt(6, e.getManagerId());
             }
             ps.setInt(7, e.getDepartmentId());
-            ps.setString(9, e.getAvatar());
-            ps.setInt(10, e.getId());
+            ps.setString(8, e.getAvatar());
+            ps.setInt(9, e.getId());
             ps.executeUpdate();
             conn.commit();
         } catch (Exception ex) {

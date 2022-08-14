@@ -106,7 +106,7 @@ public class CreateEmployee extends HttpServlet {
         String fullName = request.getParameter("fullName");
         String email = request.getParameter("email");
         String address = request.getParameter("address");
-        String tel = request.getParameter("tel");
+        String tel = Validation.CheckTel(request.getParameter("tel"));
         int positionId = Integer.parseInt(request.getParameter("positionId"));
         int managerId = Integer.parseInt(request.getParameter("managerId"));
         int departmentId = Integer.parseInt(request.getParameter("departmentId"));

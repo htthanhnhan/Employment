@@ -20,7 +20,7 @@
         </div>
         <div class="row column1">
             <div class="col-lg-12">
-                <form action="update-employee" method="POST" onsubmit="disable()">
+                <form action="update-employee" method="POST">
 
                     <table class="table" style="font-size: 15px; color: black; font-family: auto" cellspacing="3" cellpadding="3">
                         <tr>
@@ -37,7 +37,7 @@
                         </tr>
                         <tr>
                             <th scope="col">Số điện thoại</th>
-                            <td><input style="border: none; background: none" type="number" name="tel" value="${e.tel}"></td>
+                            <td><input style="border: none; background: none" type="text" name="tel" value="${e.tel}" minlength="10" maxlength="10" pattern="[0-9]{1,10}" title="Số điện thoại chỉ chứa các ký tự số từ 0-9"></td>
                         </tr>
                         <tr>
                             <th scope="col">Địa chỉ</th>
@@ -77,10 +77,8 @@
                         <tr>
                             <th scope="col">Giới tính</th>
                             <td>
-                                <select style="border: none; background: none" class="form-control" name="sex" id="sex">
-                                    <option value="true"  <c:if test="${e.sex == true}">selected</c:if>>Nam</option>
-                                    <option value="false"  <c:if test="${e.sex == false}">selected</c:if>>Nữ</option>     
-                                    </select>
+                                <c:if test="${e.sex == true}">Nam</c:if>
+                                <c:if test="${e.sex == false}">Nữ</c:if>
                                 </td>
                             </tr>
                         </table>

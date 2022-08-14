@@ -54,7 +54,7 @@
                         </div>
                         <div class="login_form">
                             <div style="color: green">${noti}</div>
-                            <form action="login" method="post">
+                            <form action="login" method="post" onsubmit="disable()">
                                 <fieldset>
                                     <div class="field">
                                         <label class="label_field">Tên đăng nhập</label>
@@ -67,7 +67,7 @@
                                     <div style="display: flex; text-align: right">
                                         <div class="field margin_0">
                                             <label class="label_field hidden">hidden label</label>
-                                            <button class="main_bt">Đăng nhập</button>
+                                            <button class="main_bt" id="submit">Đăng nhập</button>
                                         </div>
                                         <div class="field margin_0">
                                             <label class="label_field hidden">hidden label</label>
@@ -92,7 +92,14 @@
         <!-- nice scrollbar -->
         <script src="js/perfect-scrollbar.min.js"></script>
         <script>
-            var ps = new PerfectScrollbar('#sidebar');
+                                var ps = new PerfectScrollbar('#sidebar');
+                                function disable() {
+                                    document.getElementById("submit").disabled = "true";
+                                }
+
+                                window.onhashchange = function () {
+                                    document.getElementById("submit").removeAttribute("disabled");
+                                }
         </script>
         <!-- custom js -->
         <script src="js/custom.js"></script>

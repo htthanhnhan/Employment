@@ -32,6 +32,7 @@
                             <th scope="col">Phòng ban</th>
                             <th scope="col">Chức vụ</th>
                             <th scope="col">Thưởng phạt</th>
+                            <th scope="col">Chấm công</th>
                                 <c:if test="${acc.roleId == 1}">
                                 <th scope="col">Trạng thái</th>
                                 <th scope="col">Khóa tài khoản</th>
@@ -53,6 +54,7 @@
                                 <td>${l.departmentName}</td>
                                 <td>${l.positionName}</td>
                                 <td><a href="payoff-detail?id=${l.id}">Xem</a></td>
+                                <td><a href="check-in-detail?id=${l.id}">Xem</a></td>
                                 <c:if test="${acc.roleId == 1}">
                                     <td id="stt${l.id}">
                                         <c:if test="${l.block == 'Mở'}">

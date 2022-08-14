@@ -84,6 +84,14 @@
         <servlet-name>ForgotPassword</servlet-name>
         <servlet-class>controller.ForgotPassword</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CheckinDetail</servlet-name>
+        <servlet-class>controller.CheckinDetail</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateCheckIn</servlet-name>
+        <servlet-class>controller.UpdateCheckIn</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -167,6 +175,14 @@
     <servlet-mapping>
         <servlet-name>ForgotPassword</servlet-name>
         <url-pattern>/forgot-password</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckinDetail</servlet-name>
+        <url-pattern>/check-in-detail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateCheckIn</servlet-name>
+        <url-pattern>/update-check-in</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
