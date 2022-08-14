@@ -46,15 +46,15 @@
                     <tbody>
                         <c:forEach items="${list}" var="l">            
                             <tr>
-                                <td><a href="contract-detail?id=${l.id}">${l.fullName}</a></td>
+                                <td><a href="contract-detail?id=${l.id}" style="color: blue">${l.fullName}</a></td>
                                 <td>${l.userName}</td>
                                 <td><img width="100px" src="${l.avatar}" alt="${l.fullName}"></td>
                                 <td>${l.managerName}</td>
                                 <td>${l.gen}</td>
                                 <td>${l.departmentName}</td>
                                 <td>${l.positionName}</td>
-                                <td><a href="payoff-detail?id=${l.id}">Xem</a></td>
-                                <td><a href="check-in-detail?id=${l.id}">Xem</a></td>
+                                <td><a href="payoff-detail?id=${l.id}"><button class="btn btn-warning">Xem</button></a></td>
+                                <td><a href="check-in-detail?id=${l.id}"><button class="btn btn-warning">Xem</button></a></td>
                                 <c:if test="${acc.roleId == 1}">
                                     <td id="stt${l.id}">
                                         <c:if test="${l.block == 'Mở'}">
@@ -65,7 +65,7 @@
                                         </c:if>
                                     </td>
                                     <td><button class="btn btn-danger" id="block${l.id}" onclick="block(${l.id}, '${l.fullName}')">${l.block}</button></td>
-                                    <td><a style="color: blue" href="update-employee?id=${l.id}">Update</a></td>
+                                    <td><a style="color: blue" href="update-employee?id=${l.id}"><button class="btn btn-info">Update</button></a></td>
                                 </c:if>
                                 <c:if test="${acc.positionId == 2}">
                                     <td><button class="btn btn-dark" onclick="closing(${l.id}, '${l.fullName}', this)" <c:if test="${l.checkSalary}">disabled</c:if> >Chốt lương</button></td>

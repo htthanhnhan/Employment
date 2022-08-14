@@ -35,7 +35,7 @@
                                 <td>${l.name}</td>
                                 <td>${l.roomNo}</td>
                                 <td>${l.managerName}</td>
-                                <td><a href="update-department?id=${l.id}">Update</a></td>
+                                <td><a href="update-department?id=${l.id}"><button class="btn btn-info">Update</button></a></td>
                             </tr>
                         </c:forEach>               
                     </tbody>
