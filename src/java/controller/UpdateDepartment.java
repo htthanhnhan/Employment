@@ -74,7 +74,6 @@ public class UpdateDepartment extends HttpServlet {
 
                 if (type == 1) {
                     request.setAttribute("department", new Department(id));
-                    request.setAttribute("manager", EmployeeDB.getAllManagerLeader());
                     request.getRequestDispatcher("UpdateDepartment.jsp").include(request, response);
                 } else {
                     response.sendRedirect("list-department");
@@ -103,8 +102,7 @@ public class UpdateDepartment extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         int roomNo = Integer.parseInt(request.getParameter("roomNo"));
-        int managerId = Integer.parseInt(request.getParameter("managerId"));
-        new Department(id, name, roomNo, managerId).update();
+        new Department(id, name, roomNo).update();
         response.sendRedirect("list-department");
     }
 

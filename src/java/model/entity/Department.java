@@ -27,6 +27,12 @@ public class Department {
         this.managerId = managerId;
     }
     
+    public Department(int id, String name, int roomNo) {
+        this.id = id;
+        this.name = name;
+        this.roomNo = roomNo;
+    }
+    
     public Department(String name, int roomNo, int managerId) {
         this.name = name;
         this.roomNo = roomNo;

@@ -101,17 +101,12 @@ public class DepartmentDB implements DBContext {
     public static void update(Department d) {
         try (Connection conn = DBContext.getConnection()) {
             String query = "UPDATE Department\n"
-                    + "SET name = ?, roomNo = ?, managerId = ?\n"
+                    + "SET name = ?, roomNo = ?\n"
                     + "WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, d.getName());
             ps.setInt(2, d.getRoomNo());
-            if(d.getManagerId() == 0) {
-                ps.setString(3, null);
-            } else {
-                ps.setInt(3, d.getManagerId());
-            }
-            ps.setInt(4, d.getId());
+            ps.setInt(3, d.getId());
             ps.executeUpdate();
             conn.commit();
         } catch (Exception ex) {

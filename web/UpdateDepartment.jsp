@@ -31,17 +31,6 @@
                             <th scope="col">Số phòng</th>
                             <td><input style="border: none; background: none" type="number" name="roomNo" value="${department.roomNo}"></td>
                         </tr>
-                        <tr>
-                            <th scope="col">Người quản lí</th>
-                            <td>
-                                <select style="border: none; background: none" class="form-control" name="managerId" id="managerId">
-                                    <option value="0" >-----------------------------</option>
-                                    <c:forEach items="${manager}" var="m">
-                                        <option value="${m.id}" <c:if test="${m.id == department.managerId}">selected</c:if>>${m.fullName}</option>
-                                    </c:forEach>      
-                                </select>
-                            </td>
-                        </tr>
                     </table>
                     <input type="number" name="id" value="${department.id}" hidden>
                     <div style="display: flex">
